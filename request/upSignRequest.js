@@ -1,4 +1,4 @@
-const { default: axios } = require("axios");
+const axios = require("axios");
 
 const upSignRequest = async (data) => {
   const response = await axios.post(

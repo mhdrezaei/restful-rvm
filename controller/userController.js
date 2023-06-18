@@ -1,4 +1,4 @@
-const { query } = require("express");
+const express = require("express");
 const md5 = require("md5");
 const tempString = require("../util/tempString");
 const upSignRequest = require("../request/upSignRequest");
