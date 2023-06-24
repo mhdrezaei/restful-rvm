@@ -1,13 +1,14 @@
 const axios = require("axios");
 
-const upSignRequest = async (data, hi) => {
+const upChargeRequest = async (data, hreq) => {
   const response = await axios.post(
-    `https://thirdparty.dev.tasn.ir/exts/v1/${hi}/1`,
+    `https://thirdparty.dev.tasn.ir/exts/v1/${hreq.hi}/1`,
     JSON.stringify(data)
   );
   const responseData = JSON.parse(response.data.hresp);
   console.log(responseData);
-  return responseData.stm;
+
+  return responseData;
 };
 
-module.exports = upSignRequest;
+module.exports = upChargeRequest;
