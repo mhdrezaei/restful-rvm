@@ -8,14 +8,14 @@ exports.userData = async (req, res, next) => {
   const { messageId, timestamp, userId, sign } = req.query;
   //   const rawString = tempString(req.originalUrl);
   //   const extractSign = md5(rawString);
-  console.log(new Date().toString());
+  console.log((Date.now() / 1000).toFixed());
   const upData = {
     hreq: {
       hi: 2404,
       htran: createTranId(),
       hkey: "1e0c45e8-5a28-4e59-8011-714c182f7358",
       mo: userId,
-      htime: Date.now(),
+      htime: (Date.now() / 1000).toFixed(),
       ao: 1000,
       walet: 5,
       caurl: "https://asanpardakht.ir",
