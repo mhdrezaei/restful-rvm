@@ -4,7 +4,7 @@ const fs = require("fs");
 const decriptFn = (dataToDecript) => {
   const splitData = dataToDecript.split("#");
 
-  const privateKey = fs.readFileSync("./cert/itrmsiran.tiscfz.com.key", {
+  const privateKey = fs.readFileSync("./cert/itrmsiran.tiscfz.com.pub", {
     encoding: "utf-8",
   });
 

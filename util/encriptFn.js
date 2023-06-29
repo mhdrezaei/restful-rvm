@@ -3,7 +3,7 @@ const fs = require("fs");
 
 const encriptFn = (dataToEncrypt) => {
   const publicKey = Buffer.from(
-    fs.readFileSync("./cert/itrmsiran.tiscfz.com.pub", { encoding: "utf-8" })
+    fs.readFileSync("./cert/itrmsiran.tiscfz.com.key", { encoding: "utf-8" })
   );
 
   const encryptedData = crypto.publicEncrypt(
