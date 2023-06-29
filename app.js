@@ -7,7 +7,7 @@ const bodyParser = require("body-parser");
 const user = require("./routes/user");
 const data = require("./routes/data");
 const setTZ = require("set-tz");
-setTZ("Asia/Baghdad");
+setTZ("Asia/Tehran");
 const PORT = process.env.PORT;
 
 // parser

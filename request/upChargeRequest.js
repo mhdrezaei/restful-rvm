@@ -14,7 +14,7 @@ const upChargeRequest = async (data, hreq) => {
     JSON.stringify(newData)
   );
   const responseData = JSON.parse(response.data.hresp);
-  console.log(responseData);
+  console.log(response.data);
 
   return responseData;
 };

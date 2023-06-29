@@ -8,6 +8,7 @@ exports.userData = async (req, res, next) => {
   const { messageId, timestamp, userId, sign } = req.query;
   //   const rawString = tempString(req.originalUrl);
   //   const extractSign = md5(rawString);
+  console.log(new Date().toString());
   const upData = {
     hreq: {
       hi: 2404,
