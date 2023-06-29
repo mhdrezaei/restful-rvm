@@ -1,7 +1,6 @@
 const axios = require("axios");
 
 const upChargeRequest = async (data, hreq) => {
-  console.log(new Date());
   //console.log(JSON.stringify(hreq));
   //console.log(data);
   const newData = {
