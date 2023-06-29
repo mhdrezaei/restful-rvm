@@ -6,7 +6,6 @@ const createTranId = require("../util/createTranId");
 const upChargeRequest = require("../request/upChargeRequest");
 exports.userData = async (req, res, next) => {
   const { messageId, timestamp, userId, sign } = req.query;
-  console.log(req.body);
   //   const rawString = tempString(req.originalUrl);
   //   const extractSign = md5(rawString);
   const upData = {
@@ -27,10 +26,7 @@ exports.userData = async (req, res, next) => {
   upData.hsign = encriptFn(JSON.stringify(upData.hreq));
   upData.ver = "1.0.0";
   if (userId) {
-    const upResponse = await upChargeRequest(
-      JSON.stringify(upData),
-      upData.hreq
-    );
+    const upResponse = await upChargeRequest(upData, upData.hreq);
     console.log(upResponse);
     if (upResponse.st === 0) {
       console.log("success");
