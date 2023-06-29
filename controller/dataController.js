@@ -4,11 +4,12 @@ const tempString = require("../util/tempString");
 const encriptFn = require("../util/encriptFn");
 const createTranId = require("../util/createTranId");
 const upChargeRequest = require("../request/upChargeRequest");
+const decriptFn = require("../util/decriptFn");
 exports.userData = async (req, res, next) => {
   const { messageId, timestamp, userId, sign } = req.query;
   //   const rawString = tempString(req.originalUrl);
   //   const extractSign = md5(rawString);
-  console.log((Date.now() / 1000).toFixed());
+  // console.log((Date.now() / 1000).toFixed());
   const upData = {
     hreq: {
       hi: 2404,
@@ -22,7 +23,10 @@ exports.userData = async (req, res, next) => {
       hop: 313,
     },
   };
-  // const enc = encriptFn(JSON.stringify(up      Data.hreq));
+  const enc = encriptFn(JSON.stringify(upData.hreq));
+  console.log("encription : " + enc);
+  const dec = decriptFn(JSON.stringify(upData.hreq), enc);
+  console.log(dec);
 
   upData.hsign = encriptFn(JSON.stringify(upData.hreq));
   upData.ver = "1.0.0";
