@@ -2,7 +2,7 @@ const express = require("express");
 const md5 = require("md5");
 const tempString = require("../util/tempString");
 const encriptFn = require("../util/encriptFn");
-const createTranId = require("../util/CreateTranId");
+const createTranId = require("../util/createTranId");
 const upChargeRequest = require("../request/upChargeRequest");
 exports.userData = async (req, res, next) => {
   const { messageId, timestamp, userId, sign } = req.query;
