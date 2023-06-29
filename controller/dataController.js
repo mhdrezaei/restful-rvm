@@ -15,7 +15,7 @@ exports.userData = async (req, res, next) => {
       htran: createTranId(),
       hkey: "1e0c45e8-5a28-4e59-8011-714c182f7358",
       mo: userId,
-      htime: Date.now(),
+      htime: Date.now()/1000,
       ao: 1000,
       walet: 5,
       caurl: "https://asanpardakht.ir",
