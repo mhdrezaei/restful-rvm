@@ -4,7 +4,7 @@ const tempString = require("../util/tempString");
 const upSignRequest = require("../request/upSignRequest");
 const encriptFn = require("../util/encriptFn");
 const decriptFn = require("../util/decriptFn");
-const createTranId = require("../util/CreateTranId");
+const createTranId = require("../util/createTranId");
 exports.userAuthentication = async (req, res, next) => {
   const { messageId, timestamp, userId, sign } = req.query;
   const rawString = tempString(req.originalUrl);
