@@ -8,7 +8,7 @@ const encriptFn = (dataToEncrypt) => {
   const signature = crypto
     .sign("RSA-SHA256", dataToEncrypt, privateKey)
     .toString("base64");
-  console.log("Signing done", signature);
+  // console.log("Signing done", signature);
   
   return "1#1#" + signature;
 };

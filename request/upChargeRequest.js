@@ -6,6 +6,7 @@ const upChargeRequest = async (data, hreq) => {
     hsign: data.hsign,
     ver: data.ver,
   };
+  console.log(newData)
   const response = await axios.post(
     `https://thirdparty.dev.tasn.ir/exts/v1/${hreq.hi}/1`,
     newData
