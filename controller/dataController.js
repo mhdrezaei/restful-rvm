@@ -8,9 +8,9 @@ exports.userData = async (req, res, next) => {
   const { messageId, timestamp, userId, sign } = req.query;
   const upData = {
     hreq: {
-      hi: 2404,
+      hi: 2406,
       htran: createTranId(),
-      hkey: "1e0c45e8-5a28-4e59-8011-714c182f7358",
+      hkey: "af11cbf56aa712aab59951967ff11207",
       mo: userId,
       htime: (Date.now() / 1000).toFixed(),
       ao: 1000,
