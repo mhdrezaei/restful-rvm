@@ -3,6 +3,7 @@ const tempString = require("../util/tempString");
 const encriptFn = require("../util/encriptFn");
 const createTranId = require("../util/createTranId");
 const upChargeRequest = require("../request/upChargeRequest");
+const sendReq = require("../request/httpReq")
 
 exports.userData = async (req, res, next) => {
   const { messageId, timestamp, userId, sign } = req.query;
@@ -22,7 +23,7 @@ exports.userData = async (req, res, next) => {
   upData.hsign = encriptFn(JSON.stringify(upData.hreq).trim());
   upData.ver = "1.0.0";
   if (userId) {
-    const upResponse = await upChargeRequest(upData, upData.hreq);
+    const upResponse = await upChargeRequest(upData , upData.hreq);
     console.log(upResponse);
     if (upResponse.st === 0) {
       console.log("success");
