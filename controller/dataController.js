@@ -3,7 +3,6 @@ const tempString = require("../util/tempString");
 const encriptFn = require("../util/encriptFn");
 const createTranId = require("../util/createTranId");
 const upChargeRequest = require("../request/upChargeRequest");
-const sendReq = require("../request/httpReq")
 
 exports.userData = async (req, res, next) => {
   const { messageId, timestamp, userId, sign } = req.query;
@@ -40,6 +39,7 @@ exports.userData = async (req, res, next) => {
         upmsg: upResponse.stm,
         upCode: upResponse.st,
         userId,
+        upResponse
       });
     }
   } else {
