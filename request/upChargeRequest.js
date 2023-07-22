@@ -9,9 +9,10 @@ const upChargeRequest = async (data, hreq) => {
   };
   console.log(decriptFn(JSON.stringify(hreq) ,data.hsign ))
   // console.log(newData)
+
   const response = await axios.post(
     `https://thirdparty.dev.tasn.ir/exts/v1/${hreq.hi}/1`,
-    newData
+    JSON.stringify(newData)
   );
   // console.log(response)
   const responseData = response.data;
