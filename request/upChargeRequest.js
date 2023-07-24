@@ -3,7 +3,7 @@ const decriptFn = require("../util/decriptFn");
 
 const upChargeRequest = async (data, hreq) => {
   const newData = {
-    hreq: hreq,
+    hreq: JSON.stringify(hreq),
     hsign: data.hsign,
     ver: data.ver,
   };
