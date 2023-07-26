@@ -11,7 +11,7 @@ exports.userData = async (req, res, next) => {
     rvmID,
     timestamp,
     totalCount,
-    totalValue,
+    totalValue = 1000,
     userId,
     sign,
   } = req.query;
@@ -29,7 +29,7 @@ exports.userData = async (req, res, next) => {
     },
   };
 
-  upData.hsign = encriptFn(JSON.stringify(upData.hreq).trim());
+  upData.hsign = encriptFn(JSON.stringify(upData.hreq));
   upData.ver = "1.0.0";
   if (userId) {
     const upResponse = await upChargeRequest(upData, upData.hreq);
