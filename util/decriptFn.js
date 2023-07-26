@@ -4,14 +4,14 @@ const fs = require("fs");
 const decriptFn = (dataToDecript, signature) => {
   const splitData = signature.split("#");
 
-  const publicKey = fs.readFileSync("./cert/itrmsiran.tiscfz.com.pub", {
+  const publicKey = fs.readFileSync("./keys/key.public", {
     encoding: "utf-8",
   });
   const verifyData = crypto.verify(
     "RSA-SHA256",
     dataToDecript,
     publicKey,
-    Buffer.from(signature, "base64")
+    Buffer.from(splitData[2], "base64")
   );
 
   return verifyData;

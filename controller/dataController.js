@@ -28,7 +28,8 @@ exports.userData = async (req, res, next) => {
       hop: 313,
     },
   };
-  upData.hsign = encriptFn(JSON.stringify(upData.hreq));
+
+  upData.hsign = encriptFn(JSON.stringify(upData.hreq).trim());
   upData.ver = "1.0.0";
   if (userId) {
     const upResponse = await upChargeRequest(upData, upData.hreq);
@@ -48,6 +49,7 @@ exports.userData = async (req, res, next) => {
         upmsg: upResponse.stm,
         upCode: upResponse.st,
         userId,
+        upResponse,
       });
     }
   } else {
