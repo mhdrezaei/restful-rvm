@@ -9,25 +9,18 @@ const encriptFn = (dataToEncrypt) => {
     .sign("RSA-SHA256", dataToEncrypt, privateKey)
     .toString("base64");
   // console.log("Signing done", signature);
-  
+
   return "1#1#" + signature;
 };
 
 module.exports = encriptFn;
 
-
-
-
-
-
-
-
 // const signature = crypto
-  //   .createSign("RSA-SHA256")
-  //   .update(dataToEncrypt)
-  //   .sign(privateKey, "base64");
+//   .createSign("RSA-SHA256")
+//   .update(dataToEncrypt)
+//   .sign(privateKey, "base64");
 
-  // return "1#1#" + encryptedData.toString("base64");
+// return "1#1#" + encryptedData.toString("base64");
 
 // const signature = crypto.sign("sha256", Buffer.from(dataToEncrypt), {
 //   key: privateKey,

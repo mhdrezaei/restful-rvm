@@ -5,7 +5,16 @@ const createTranId = require("../util/createTranId");
 const upChargeRequest = require("../request/upChargeRequest");
 
 exports.userData = async (req, res, next) => {
-  const { messageId, timestamp, userId, sign } = req.query;
+  const {
+    messageID,
+    item,
+    rvmID,
+    timestamp,
+    totalCount,
+    totalValue,
+    userId,
+    sign,
+  } = req.query;
   const upData = {
     hreq: {
       hi: 2406,
@@ -13,13 +22,13 @@ exports.userData = async (req, res, next) => {
       hkey: "af11cbf56aa712aab59951967ff11207",
       mo: userId,
       htime: (Date.now() / 1000).toFixed(),
-      ao: 1000,
+      ao: totalValue,
       walet: 5,
       caurl: "https://asanpardakht.ir",
       hop: 313,
     },
   };
-  upData.hsign = encriptFn(JSON.stringify(JSON.stringify(upData.hreq).trim()));
+  upData.hsign = encriptFn(JSON.stringify(upData.hreq));
   upData.ver = "1.0.0";
   if (userId) {
     const upResponse = await upChargeRequest(upData, upData.hreq);
@@ -48,7 +57,3 @@ exports.userData = async (req, res, next) => {
     });
   }
 };
-
-//   const rawString = tempString(req.originalUrl);
-//   const extractSign = md5(rawString);
-// console.log((Date.now() / 1000).toFixed());

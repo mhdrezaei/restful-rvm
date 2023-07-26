@@ -22,7 +22,7 @@ exports.userAuthentication = async (req, res, next) => {
       hop: 312,
     },
   };
-  // const enc = encriptFn(JSON.stringify(up      Data.hreq));
+  console.log(JSON.stringify(JSON.stringify(upData.hreq)));
 
   upData.hsign = encriptFn(JSON.stringify(upData.hreq));
   upData.ver = "1.0.0";
