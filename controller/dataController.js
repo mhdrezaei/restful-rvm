@@ -5,6 +5,7 @@ const createTranId = require("../util/createTranId");
 const upChargeRequest = require("../request/upChargeRequest");
 
 exports.userData = async (req, res, next) => {
+  console.log(req.body)
   const {
     messageID,
     item,
@@ -12,15 +13,15 @@ exports.userData = async (req, res, next) => {
     timestamp,
     totalCount,
     totalValue = 1000,
-    userId,
+    userID,
     sign,
-  } = req.query;
+  } = req.body;
   const upData = {
     hreq: {
       hi: 2406,
       htran: createTranId(),
       hkey: "af11cbf56aa712aab59951967ff11207",
-      mo: userId,
+      mo: userID,
       htime: (Date.now() / 1000).toFixed(),
       ao: totalValue,
       walet: 5,
@@ -31,7 +32,7 @@ exports.userData = async (req, res, next) => {
 
   upData.hsign = encriptFn(JSON.stringify(upData.hreq));
   upData.ver = "1.0.0";
-  if (userId) {
+  if (userID) {
     const upResponse = await upChargeRequest(upData, upData.hreq);
     console.log(upResponse);
     if (upResponse.st === 0) {
@@ -48,7 +49,7 @@ exports.userData = async (req, res, next) => {
         message: "charge was failed !",
         upmsg: upResponse.stm,
         upCode: upResponse.st,
-        userId,
+        userID,
         upResponse,
       });
     }

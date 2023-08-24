@@ -12,7 +12,7 @@ const PORT = process.env.PORT;
 
 // parser
 // add json body parser
-// app.use(express.json());
+app.use(express.json());
 app.use(cookieParser());
 
 // route
