@@ -3,9 +3,34 @@ const tempString = require("../util/tempString");
 const encriptFn = require("../util/encriptFn");
 const createTranId = require("../util/createTranId");
 const upChargeRequest = require("../request/upChargeRequest");
-
+const lexicographicSort = require("../util/lexicographicSort");
+const decriptWithMd5 = require("../util/decriptWithMd5");
+const checkRvmData = require("../util/checkRvmData");
+const encriptWithMd5 = require("../util/encriptWithMd5");
 exports.userData = async (req, res, next) => {
-  console.log(req.body)
+  const rvmData = req.body;
+  const testData = lexicographicSort(rvmData)
+  console.log("sing : " + encriptWithMd5(testData))
+  // console.log(rvmData.sort())
+  if (checkRvmData(rvmData)) {
+    const sortedData = lexicographicSort(rvmData);
+    if (decriptWithMd5(sortedData , rvmData.sign)) {
+      res.status(200).json({
+        code: 0,
+        msg: "Success",
+      });
+    } else {
+      res.status(200).json({
+        code: 201,
+        msg: "failure",
+      });
+    }
+  } else {
+    res.status(200).json({
+      code: 202,
+      msg: "failure",
+    });
+  }
   const {
     messageID,
     item,
@@ -44,14 +69,14 @@ exports.userData = async (req, res, next) => {
       });
     } else {
       console.log("failed");
-      res.status(200).json({
-        success: false,
-        message: "charge was failed !",
-        upmsg: upResponse.stm,
-        upCode: upResponse.st,
-        userID,
-        upResponse,
-      });
+      // res.status(200).json({
+      //   success: false,
+      //   message: "charge was failed !",
+      //   upmsg: upResponse.stm,
+      //   upCode: upResponse.st,
+      //   userID,
+      //   upResponse,
+      // });
     }
   } else {
     res.status(200).json({
