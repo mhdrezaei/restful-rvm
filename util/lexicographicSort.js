@@ -1,19 +1,18 @@
-function lexicographicSort(obj){
-    delete obj.sign
-    console.log(obj)
-    let sortable = [];
-for (var data in obj) {
+function lexicographicSort(obj) {
+  delete obj.sign;
+  let sortable = [];
+  for (var data in obj) {
     sortable.push([data, obj[data]]);
-    // console.log(data)
-}
-sortable.sort();
-const newObj = Object.fromEntries(sortable);
-const result =  Object.keys(newObj)
-.map(key => {
-  return `${key}=${newObj[key]}`;
-})
-.join('&');
-return result
+  }
+  sortable.sort();
+  const sorted = Object.fromEntries(sortable);
+  const result = Object.keys(sorted)
+    .map((key) => {
+      return `${key}=${sorted[key]}`;
+    })
+    .join("&");
+    console.log(result)
+  return result;
 }
 
-module.exports = lexicographicSort
+module.exports = lexicographicSort;

@@ -1,5 +1,3 @@
-const express = require("express");
-const tempString = require("../util/tempString");
 const encriptFn = require("../util/encriptFn");
 const createTranId = require("../util/createTranId");
 const upChargeRequest = require("../request/upChargeRequest");
@@ -9,9 +7,7 @@ const checkRvmData = require("../util/checkRvmData");
 const encriptWithMd5 = require("../util/encriptWithMd5");
 exports.userData = async (req, res, next) => {
   const rvmData = req.body;
-  const testData = lexicographicSort(rvmData)
-  console.log("sing : " + encriptWithMd5(testData))
-  // console.log(rvmData.sort())
+
   if (checkRvmData(rvmData)) {
     const sortedData = lexicographicSort(rvmData);
     if (decriptWithMd5(sortedData , rvmData.sign)) {
