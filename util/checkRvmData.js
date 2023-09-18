@@ -1,23 +1,8 @@
 function checkRvmData(data) {
   const {
-    messageID,
-    item,
-    rvmID,
-    timestamp,
-    totalCount,
-    totalValue,
-    userID,
-    sign,
-  } = data;
+    messageID, item, rvmID, timestamp, totalCount, totalValue, userID, sign} = data;
   if (
-    !messageID ||
-    !item ||
-    !rvmID ||
-    !timestamp ||
-    !totalCount ||
-    !totalValue ||
-    !userID ||
-    !sign
+    !messageID || !item || !rvmID || !timestamp || !totalCount || !totalValue || !userID || !sign
   ) {
     return false;
   } else {
@@ -31,12 +16,10 @@ function checkRvmData(data) {
       !userID === "" ||
       !sign === ""
     ) {
-      return false
-    }else{
-
-        return true;
-      }
+      return false;
+    } else {
+      return true;
+    }
   }
 }
-
 module.exports = checkRvmData;
