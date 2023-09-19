@@ -11,7 +11,6 @@ function lexicographicSort(obj) {
       return `${key}=${sorted[key]}`;
     })
     .join("&");
-    console.log(result)
   return result;
 }
 

@@ -7,10 +7,11 @@ const checkRvmData = require("../util/checkRvmData");
 const encriptWithMd5 = require("../util/encriptWithMd5");
 exports.userData = async (req, res, next) => {
   const rvmData = req.body;
+  const rvmSign = rvmData.sign
 
   if (checkRvmData(rvmData)) {
     const sortedData = lexicographicSort(rvmData);
-    if (decriptWithMd5(sortedData , rvmData.sign)) {
+    if (decriptWithMd5(sortedData , rvmSign)) {
       res.status(200).json({
         code: 0,
         msg: "Success",
@@ -55,9 +56,9 @@ exports.userData = async (req, res, next) => {
   upData.ver = "1.0.0";
   if (userID) {
     const upResponse = await upChargeRequest(upData, upData.hreq);
-    console.log(upResponse);
+    // console.log(upResponse);
     if (upResponse.st === 0) {
-      console.log("success");
+      // console.log("success");
       res.status(200).json({
         success: true,
         message: "charge was successfully !",

@@ -1,13 +1,10 @@
-const crypto = require("crypto");
+const md5 = require("md5");
 function encriptWithMd5(data) {
-  stringSignTemp = `${data}&key=incomeTestKey`;
-  const sing = crypto
-    .createHash("md5")
-    .update(stringSignTemp)
-    .digest("hex")
-    .toUpperCase();
-console.log(sing)
-  return sing;
+  
+ const stringSignTemp = `${data}&key=incomTestKey`;
+  const sign = md5(stringSignTemp).toUpperCase()
+
+  return sign;
 }
 
 module.exports = encriptWithMd5;
