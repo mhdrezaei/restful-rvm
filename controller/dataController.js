@@ -5,6 +5,7 @@ const lexicographicSort = require("../util/lexicographicSort");
 const decriptWithMd5 = require("../util/decriptWithMd5");
 const checkRvmData = require("../util/checkRvmData");
 const encriptWithMd5 = require("../util/encriptWithMd5");
+const addToDatabase = require("../util/database/transactin/addToDatabase");
 exports.userData = async (req, res, next) => {
   const rvmData = req.body;
   const rvmSign = rvmData.sign
@@ -12,6 +13,7 @@ exports.userData = async (req, res, next) => {
   if (checkRvmData(rvmData)) {
     const sortedData = lexicographicSort(rvmData);
     if (decriptWithMd5(sortedData , rvmSign)) {
+      addToDatabase(sortedData)
       res.status(200).json({
         code: 0,
         msg: "Success",
