@@ -1,7 +1,5 @@
 const mongoose = require("mongoose");
 const validator = require("validator");
-const slugify = require("slugify");
-
 const userSchema = new mongoose.Schema({
   name: {
     type: String,
@@ -32,6 +30,11 @@ const userSchema = new mongoose.Schema({
     required : [true, "please enter password! "],
     minLenght :[8,"The length of the password should be less than 30 characters"]
     
+  },
+  isAdmin: {
+    type: Boolean,
+    required: true,
+    default: false,
   },
   createdAt: {
     type: Date,

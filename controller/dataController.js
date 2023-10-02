@@ -13,7 +13,7 @@ exports.userData = async (req, res, next) => {
   if (checkRvmData(rvmData)) {
     const sortedData = lexicographicSort(rvmData);
     if (decriptWithMd5(sortedData , rvmSign)) {
-      addToDatabase(sortedData)
+      addToDatabase(rvmData)
       res.status(200).json({
         code: 0,
         msg: "Success",

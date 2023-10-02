@@ -4,16 +4,20 @@ const addToDatabase = async (data) => {
 
   // Validation
   if (!item || !rvmID || !messageID || !totalCount || !totalValue || !userID) {
-    throw new Error("Please include all fields");
+    console.log("Please include all fields")
+    return { status: "error", message: "Please include all fields" };
   }
 
   // Find if user already exists
   const transactionExists = await Transaction.findOne({ messageID });
 
   if (transactionExists) {
-    throw new Error("transaction already exists");
+    console.log("transaction already exists")
+    return { status: "error", message: "transaction already exists" };
   }
-
+  let transactionID = data.messageID.split("_")
+  transactionID = transactionID[1]
+  console.log(transactionID)
   // Create transaction
   const transaction = await Transaction.create({
     messageID,
@@ -22,16 +26,20 @@ const addToDatabase = async (data) => {
     totalCount,
     totalValue,
     userID,
+    transactionID,
+    status:"unknown"
   });
 
   if (transaction) {
+    console.log("success")
     return {
       staus: "success",
-      _id: user._id,
-      user: user.userID,
+      _id: transaction._id,
+      user: transaction.userID,
     };
   } else {
-    throw new error("Invalid transaction data");
+    console.log("invalid")
+    return { status: "error", message: "Invalid transaction data" };
   }
 };
 
