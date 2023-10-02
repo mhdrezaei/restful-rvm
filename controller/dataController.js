@@ -6,14 +6,15 @@ const decriptWithMd5 = require("../util/decriptWithMd5");
 const checkRvmData = require("../util/checkRvmData");
 const encriptWithMd5 = require("../util/encriptWithMd5");
 const addToDatabase = require("../util/database/transactin/addToDatabase");
+const updateTransaction = require("../util/database/transactin/updateTransaction");
 exports.userData = async (req, res, next) => {
   const rvmData = req.body;
-  const rvmSign = rvmData.sign
+  const rvmSign = rvmData.sign;
 
   if (checkRvmData(rvmData)) {
     const sortedData = lexicographicSort(rvmData);
-    if (decriptWithMd5(sortedData , rvmSign)) {
-      addToDatabase(rvmData)
+    if (decriptWithMd5(sortedData, rvmSign)) {
+      addToDatabase(rvmData);
       res.status(200).json({
         code: 0,
         msg: "Success",
@@ -40,10 +41,11 @@ exports.userData = async (req, res, next) => {
     userID,
     sign,
   } = req.body;
+
   const upData = {
     hreq: {
       hi: 2406,
-      htran: createTranId(),
+      htran: createTranId(messageID),
       hkey: "af11cbf56aa712aab59951967ff11207",
       mo: userID,
       htime: (Date.now() / 1000).toFixed(),
@@ -68,6 +70,10 @@ exports.userData = async (req, res, next) => {
       });
     } else {
       console.log("failed");
+      updateTransaction(
+        { transactionID: createTranId(messageID) },
+        { status: "success" }
+      );
       // res.status(200).json({
       //   success: false,
       //   message: "charge was failed !",
