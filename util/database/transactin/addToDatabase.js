@@ -1,4 +1,5 @@
 const Transaction = require("../../../models/transaction");
+const createTranId = require("../../createTranId");
 const addToDatabase = async (data) => {
   const { messageID, item, rvmID, totalCount, totalValue, userID } = data;
 
@@ -15,9 +16,7 @@ const addToDatabase = async (data) => {
     console.log("transaction already exists")
     return { status: "error", message: "transaction already exists" };
   }
-  let transactionID = data.messageID.split("_")
-  transactionID = transactionID[1]
-  console.log(transactionID)
+  
   // Create transaction
   const transaction = await Transaction.create({
     messageID,
@@ -26,7 +25,7 @@ const addToDatabase = async (data) => {
     totalCount,
     totalValue,
     userID,
-    transactionID,
+    transactionID : createTranId(messageID),
     status:"unknown"
   });
 

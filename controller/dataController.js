@@ -7,6 +7,7 @@ const checkRvmData = require("../util/checkRvmData");
 const encriptWithMd5 = require("../util/encriptWithMd5");
 const addToDatabase = require("../util/database/transactin/addToDatabase");
 const updateTransaction = require("../util/database/transactin/updateTransaction");
+const retryRequest = require("../util/retryRequest");
 exports.userData = async (req, res, next) => {
   const rvmData = req.body;
   const rvmSign = rvmData.sign;
@@ -70,10 +71,9 @@ exports.userData = async (req, res, next) => {
       });
     } else {
       console.log("failed");
-      updateTransaction(
-        { transactionID: createTranId(messageID) },
-        { status: "success" }
-      );
+      console.log("upData : " + upData)
+      retryRequest(rvmData, upData)
+      
       // res.status(200).json({
       //   success: false,
       //   message: "charge was failed !",
