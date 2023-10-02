@@ -4,9 +4,7 @@ const upChargeRequest = require("../request/upChargeRequest");
 const lexicographicSort = require("../util/lexicographicSort");
 const decriptWithMd5 = require("../util/decriptWithMd5");
 const checkRvmData = require("../util/checkRvmData");
-const encriptWithMd5 = require("../util/encriptWithMd5");
 const addToDatabase = require("../util/database/transactin/addToDatabase");
-const updateTransaction = require("../util/database/transactin/updateTransaction");
 const retryRequest = require("../util/retryRequest");
 exports.userData = async (req, res, next) => {
   const rvmData = req.body;
@@ -32,25 +30,15 @@ exports.userData = async (req, res, next) => {
       msg: "failure",
     });
   }
-  const {
-    messageID,
-    item,
-    rvmID,
-    timestamp,
-    totalCount,
-    totalValue = 1000,
-    userID,
-    sign,
-  } = req.body;
 
   const upData = {
     hreq: {
       hi: 2406,
-      htran: createTranId(messageID),
+      htran: createTranId(rvmData.messageID),
       hkey: "af11cbf56aa712aab59951967ff11207",
-      mo: userID,
+      mo: rvmData.userID,
       htime: (Date.now() / 1000).toFixed(),
-      ao: totalValue,
+      ao: rvmData.totalValue,
       walet: 5,
       caurl: "https://asanpardakht.ir",
       hop: 313,
