@@ -3,7 +3,6 @@ const createTranId = require("./createTranId");
 const updateTransaction = require("./database/transactin/updateTransaction");
 
 const retryRequest = (rvmData, upData) => {
-  console.log(upData)
   let numberOfRepetitions = 0;
   async function resendRequest() {
     const upResponse = await upChargeRequest(upData, upData.hreq);

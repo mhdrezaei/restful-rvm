@@ -51,10 +51,10 @@ exports.userAuthentication = async (req, res, next) => {
 // @route /api/users
 // @access public
 const registerUser = async (req, res) => {
-  const { name, family, isAdmin, role, createAt, email, password } = req.body;
+  const { name, family, isAdmin, createAt, email, password } = req.body;
 
   // Validation
-  if (!name || family || !email || !password) {
+  if (!name || family || !email || !password || !isAdmin ) {
     res.status(400);
     throw new Error("Please include all fields");
   }
@@ -87,6 +87,7 @@ const registerUser = async (req, res) => {
       _id: user._id,
       name: user.name,
       email: user.email,
+      isAdmin : user.isAdmin,
       token: generateToken(user._id),
     });
   } else {
