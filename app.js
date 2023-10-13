@@ -8,6 +8,7 @@ const databaseConnection = require("./config/databaseConnection");
 const user = require("./routes/user");
 const data = require("./routes/data");
 const status = require("./routes/status")
+const summary = require("./routes/sunmmary")
 const setTZ = require("set-tz");
 setTZ("Asia/Tehran");
 const PORT = process.env.PORT;
@@ -22,6 +23,7 @@ app.use(cookieParser());
 app.use("/api/v1/", user);
 app.use("/api/v1/", data);
 app.use("/api/v1/", status);
+app.use("/api/v1/", summary);
 
 const server = app.listen(PORT, () => {
   console.log(`server is running in port ${PORT}`);

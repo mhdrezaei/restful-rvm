@@ -1,4 +1,6 @@
 const express = require("express");
+const bcrypt =  require("bcryptjs");
+const jwt = require("jsonwebtoken")
 const md5 = require("md5");
 const User = require("../models/user");
 const tempString = require("../util/tempString");
@@ -54,17 +56,15 @@ const registerUser = async (req, res) => {
   const { name, family, isAdmin, createAt, email, password } = req.body;
 
   // Validation
-  if (!name || family || !email || !password || !isAdmin ) {
-    res.status(400);
-    throw new Error("Please include all fields");
+  if (!name || !family || !email || !password || !isAdmin ) {
+    res.status(400).json({"message" : "Please include all fields"});
   }
 
   // Find if user already exists
   const userExists = await User.findOne({ email });
 
   if (userExists) {
-    res.status(400);
-    throw new Error("User already exists");
+    res.status(400).json({message : "User already exists" });
   }
 
   // Hash password
@@ -77,7 +77,6 @@ const registerUser = async (req, res) => {
     family,
     email,
     isAdmin,
-    role,
     createAt,
     password: hashedPassword,
   });
@@ -91,8 +90,7 @@ const registerUser = async (req, res) => {
       token: generateToken(user._id),
     });
   } else {
-    res.status(400);
-    throw new error("Invalid user data");
+    res.status(400).json({message : "Invalid user data"});
   }
 };
 
@@ -101,7 +99,7 @@ const registerUser = async (req, res) => {
 // @access public
 const loginUser = async (req, res) => {
   const { email, password } = req.body;
-
+  console.log("request come!")
   const user = await User.findOne({ email });
 
   // Check user and passwords match
@@ -110,6 +108,7 @@ const loginUser = async (req, res) => {
       _id: user._id,
       name: user.name,
       email: user.email,
+      isAdmin : user.isAdmin,
       token: generateToken(user._id),
     });
   } else {

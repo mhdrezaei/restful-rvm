@@ -17,10 +17,6 @@ const userSchema = new mongoose.Schema({
       "The length of the family should be less than 30 characters",
     ],
   },
-  role: {
-    type: String,
-    required: [true, "please select the Role "],
-  },
   email : {
     type : String ,
     validate : [validator.isEmail , "please enter valid email address"],
