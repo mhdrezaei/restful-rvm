@@ -3,7 +3,7 @@ const fs = require("fs");
 
 const encriptFn = (dataToEncrypt) => {
   const privateKey = Buffer.from(
-    fs.readFileSync("./keys/key.private", { encoding: "utf-8" })
+    fs.readFileSync("./asan-keys/asan.privkey.pem", { encoding: "utf-8" })
   );
   const signature = crypto
     .sign("RSA-SHA256", dataToEncrypt, privateKey)
