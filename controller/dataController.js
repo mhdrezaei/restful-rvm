@@ -32,7 +32,7 @@ exports.userData = async (req, res, next) => {
       code: 202,
       msg: "failure",
     });
-    return false
+    return false;
   }
 
   const upData = {
@@ -55,7 +55,6 @@ exports.userData = async (req, res, next) => {
     const upResponse = await upChargeRequest(upData, upData.hreq);
     console.log(upResponse);
     if (upResponse.st === 0) {
-      // console.log("success");
       updateTransaction(
         { transactionID: createTranId(rvmData.messageID) },
         { status: "success" }
@@ -66,46 +65,45 @@ exports.userData = async (req, res, next) => {
         upmsg: upResponse.stm,
       });
     } else {
-      console.log("failed");
-      // console.log("upData : " + upData);
+      
       let numberOfRepetitions = 0;
-  async function resendRequest() {
-    const upResponse = await upChargeRequest(upData, upData.hreq);
-    if (upResponse.st === 0) {
-      updateTransaction(
-        { transactionID: createTranId(rvmData.messageID) },
-        { status: "success" }
-      );
-      res.status(200).json({
-        success: true,
-        message: "charge was successfully !",
-        upmsg: upResponse.stm,
-      });
-    } else {
-      numberOfRepetitions = numberOfRepetitions + 1;
-      updateTransaction(
-        { transactionID: createTranId(rvmData.messageID) },
-        { status: "failed" }
-      );
-      if (numberOfRepetitions <= 3) {
-        console.log("try time : " + numberOfRepetitions);
-        console.log("try time : " + process.env.RETRY_TIME);
-        setTimeout(()=>{
-          resendRequest()
-        },process.env.RETRY_TIME);
-      } else {
-        console.log("the request Failed after 3 time try");
-        res.status(200).json({
-          success: false,
-          message: "charge was failed !!",
-          // upmsg: retryStatus.upResponse.stm,
-          // upCode: retryStatus.upResponse.st,
-          // userID: rvmData.userID,
-          // upResponse : retryStatus.upResponse,
-        });
+      async function resendRequest() {
+        const upResponse = await upChargeRequest(upData, upData.hreq);
+        if (upResponse.st === 0) {
+          updateTransaction(
+            { transactionID: createTranId(rvmData.messageID) },
+            { status: "success" }
+          );
+          res.status(200).json({
+            success: true,
+            message: "charge was successfully !",
+            upmsg: upResponse.stm,
+          });
+        } else {
+          numberOfRepetitions = numberOfRepetitions + 1;
+          updateTransaction(
+            { transactionID: createTranId(rvmData.messageID) },
+            { status: "failed" }
+          );
+          if (numberOfRepetitions <= 3) {
+            console.log("try time : " + numberOfRepetitions);
+            console.log("try time : " + process.env.RETRY_TIME);
+            setTimeout(() => {
+              resendRequest();
+            }, process.env.RETRY_TIME);
+          } else {
+            console.log("the request Failed after 3 time try");
+            res.status(200).json({
+              success: false,
+              message: "charge was failed !!",
+              upmsg: upResponse.stm,
+              upCode: upResponse.st,
+              userID: rvmData.userID,
+              upResponse : upResponse,
+            });
+          }
+        }
       }
-    }
-  }
       const retryStatus = await resendRequest();
       // console.log("retry status : " + retryStatus)
       // if (!retryStatus) {

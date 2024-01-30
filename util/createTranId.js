@@ -12,7 +12,7 @@ function createTranId(messageID) {
   // return parseInt(timestamp);
   let transactionID = messageID.split("_")
   transactionID = transactionID[1]
-  console.log(typeof(transactionID))
+  // console.log(typeof(transactionID))
   // console.log(transactionID)
   return transactionID
 }
