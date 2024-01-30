@@ -15,28 +15,31 @@ exports.userData = async (req, res, next) => {
     const sortedData = lexicographicSort(rvmData);
     if (decriptWithMd5(sortedData, rvmSign)) {
       addToDatabase(rvmData);
-      res.status(200).json({
-        code: 0,
-        msg: "Success",
-      });
+      console.log("added to DB");
+      // res.status(200).json({
+      //   code: 0,
+      //   msg: "Success",
+      // });
     } else {
       res.status(200).json({
         code: 201,
         msg: "failure",
       });
+      return false;
     }
   } else {
     res.status(200).json({
       code: 202,
       msg: "failure",
     });
+    return false
   }
 
   const upData = {
     hreq: {
-      hi: 2406,
+      hi: process.env.HOST_ID,
       htran: createTranId(rvmData.messageID),
-      hkey: "af11cbf56aa712aab59951967ff11207",
+      hkey: process.env.HOST_API_KEY,
       mo: rvmData.userID,
       htime: (Date.now() / 1000).toFixed(),
       ao: rvmData.totalValue,
@@ -48,9 +51,9 @@ exports.userData = async (req, res, next) => {
 
   upData.hsign = encriptFn(JSON.stringify(upData.hreq));
   upData.ver = "1.0.0";
-  if (userID) {
+  if (rvmData.userID) {
     const upResponse = await upChargeRequest(upData, upData.hreq);
-    // console.log(upResponse);
+    console.log(upResponse);
     if (upResponse.st === 0) {
       // console.log("success");
       updateTransaction(
@@ -64,17 +67,63 @@ exports.userData = async (req, res, next) => {
       });
     } else {
       console.log("failed");
-      console.log("upData : " + upData);
-      retryRequest(rvmData, upData);
-
-      // res.status(200).json({
-      //   success: false,
-      //   message: "charge was failed !",
-      //   upmsg: upResponse.stm,
-      //   upCode: upResponse.st,
-      //   userID,
-      //   upResponse,
-      // });
+      // console.log("upData : " + upData);
+      let numberOfRepetitions = 0;
+  async function resendRequest() {
+    const upResponse = await upChargeRequest(upData, upData.hreq);
+    if (upResponse.st === 0) {
+      updateTransaction(
+        { transactionID: createTranId(rvmData.messageID) },
+        { status: "success" }
+      );
+      res.status(200).json({
+        success: true,
+        message: "charge was successfully !",
+        upmsg: upResponse.stm,
+      });
+    } else {
+      numberOfRepetitions = numberOfRepetitions + 1;
+      updateTransaction(
+        { transactionID: createTranId(rvmData.messageID) },
+        { status: "failed" }
+      );
+      if (numberOfRepetitions <= 3) {
+        console.log("try time : " + numberOfRepetitions);
+        console.log("try time : " + process.env.RETRY_TIME);
+        setTimeout(()=>{
+          resendRequest()
+        },process.env.RETRY_TIME);
+      } else {
+        console.log("the request Failed after 3 time try");
+        res.status(200).json({
+          success: false,
+          message: "charge was failed !!",
+          // upmsg: retryStatus.upResponse.stm,
+          // upCode: retryStatus.upResponse.st,
+          // userID: rvmData.userID,
+          // upResponse : retryStatus.upResponse,
+        });
+      }
+    }
+  }
+      const retryStatus = await resendRequest();
+      // console.log("retry status : " + retryStatus)
+      // if (!retryStatus) {
+      //   res.status(200).json({
+      //     success: false,
+      //     message: "charge was failed !!",
+      //     // upmsg: retryStatus.upResponse.stm,
+      //     // upCode: retryStatus.upResponse.st,
+      //     // userID: rvmData.userID,
+      //     // upResponse : retryStatus.upResponse,
+      //   });
+      // }else{
+      //   res.status(200).json({
+      //     success: true,
+      //     message: "charge was successfully !",
+      //     upmsg: upResponse.stm,
+      //   });
+      // }
     }
   } else {
     res.status(200).json({

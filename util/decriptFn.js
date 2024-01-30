@@ -4,7 +4,7 @@ const fs = require("fs");
 const decriptFn = (dataToDecript, signature) => {
   const splitData = signature.split("#");
 
-  const publicKey = fs.readFileSync("./keys/key.public", {
+  const publicKey = fs.readFileSync("./asan-keys/key.public.pem", {
     encoding: "utf-8",
   });
   const verifyData = crypto.verify(
