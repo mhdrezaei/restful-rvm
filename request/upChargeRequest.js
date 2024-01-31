@@ -12,7 +12,7 @@ const upChargeRequest = async (data, hreq) => {
     newData
   );
   const responseData = JSON.parse(response.data.hresp);
-
+  console.log(response.data)
   return responseData;
 };
 
