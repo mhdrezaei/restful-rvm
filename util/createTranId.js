@@ -11,7 +11,7 @@ function createTranId(messageID) {
   //   now.getMilliseconds().toString();
   // return parseInt(timestamp);
   let transactionID = messageID.split("_")
-  transactionID = transactionID[1]
+  transactionID = parseInt(transactionID[1])
   // console.log(typeof(transactionID))
   // console.log(transactionID)
   return transactionID

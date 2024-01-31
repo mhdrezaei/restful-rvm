@@ -38,11 +38,11 @@ exports.userData = async (req, res, next) => {
 
   const upData = {
     hreq: {
-      hi: process.env.HOST_ID,
+      hi: 2423,
       htran: createTranId(rvmData.messageID),
       hkey: process.env.HOST_API_KEY,
       mo: rvmData.userID,
-      htime: (Date.now() / 1000).toFixed(),
+      htime: parseInt((Date.now() / 1000).toFixed()),
       ao: rvmData.totalValue,
       walet: 5,
       caurl: "https://asanpardakht.ir",

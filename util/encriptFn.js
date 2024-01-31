@@ -5,6 +5,7 @@ const encriptFn = (dataToEncrypt) => {
   const privateKey = Buffer.from(
     fs.readFileSync("./rsa-keys/private-key.pem", { encoding: "utf-8" })
   );
+  console.log(privateKey)
   const signature = crypto
     .sign("RSA-SHA256", dataToEncrypt, privateKey)
     .toString("base64");

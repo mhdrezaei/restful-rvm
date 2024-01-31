@@ -7,6 +7,7 @@ const decriptFn = (dataToDecript, signature) => {
   const publicKey = fs.readFileSync("./rsa-keys/public-key.pem", {
     encoding: "utf-8",
   });
+  console.log(publicKey)
   const verifyData = crypto.verify(
     "RSA-SHA256",
     dataToDecript,
