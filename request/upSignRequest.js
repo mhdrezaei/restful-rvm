@@ -6,7 +6,7 @@ const upSignRequest = async (data, hi) => {
     JSON.stringify(data)
   );
   const responseData = JSON.parse(response.data.hresp);
-  console.log(responseData);
+  // console.log(responseData);
   return responseData.stm;
 };
 
