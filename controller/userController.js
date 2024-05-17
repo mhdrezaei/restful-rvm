@@ -12,7 +12,6 @@ exports.userAuthentication = async (req, res, next) => {
   const { messageId, timestamp, userId, sign } = req.query;
   const rawString = tempString(req.originalUrl);
   const extractSign = md5(rawString);
-  console.log(new Date().toString());
   const upData = {
     hreq: {
       hi: 2404,
@@ -25,7 +24,6 @@ exports.userAuthentication = async (req, res, next) => {
       hop: 312,
     },
   };
-  console.log(JSON.stringify(JSON.stringify(upData.hreq)));
 
   upData.hsign = encriptFn(JSON.stringify(upData.hreq));
   upData.ver = "1.0.0";
@@ -99,7 +97,6 @@ const registerUser = async (req, res) => {
 // @access public
 const loginUser = async (req, res) => {
   const { email, password } = req.body;
-  console.log("request come!")
   const user = await User.findOne({ email });
 
   // Check user and passwords match

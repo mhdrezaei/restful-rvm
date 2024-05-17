@@ -13,14 +13,8 @@ exports.userData = async (req, res, next) => {
 
   if (checkRvmData(rvmData)) {
     const sortedData = lexicographicSort(rvmData);
-    console.log(sortedData)
     if (decriptWithMd5(sortedData, rvmSign)) {
       addToDatabase(rvmData);
-      console.log("added to DB");
-      // res.status(200).json({
-      //   code: 0,
-      //   msg: "Success",
-      // });
     } else {
       res.status(200).json({
         code: 201,
@@ -54,7 +48,6 @@ exports.userData = async (req, res, next) => {
   upData.ver = "1.0.0";
   if (rvmData.userID) {
     const upResponse = await upChargeRequest(upData, upData.hreq);
-    console.log(upResponse);
     if (upResponse.st === 0) {
       updateTransaction(
         { transactionID: createTranId(rvmData.messageID) },
@@ -87,13 +80,10 @@ exports.userData = async (req, res, next) => {
             { status: "failed" }
           );
           if (numberOfRepetitions <= 3) {
-            console.log("try time : " + numberOfRepetitions);
-            console.log("try time : " + process.env.RETRY_TIME);
             setTimeout(() => {
               resendRequest();
             }, process.env.RETRY_TIME);
           } else {
-            console.log("the request Failed after 3 time try");
             res.status(200).json({
               success: false,
               message: "charge was failed !!",
@@ -106,23 +96,22 @@ exports.userData = async (req, res, next) => {
         }
       }
       const retryStatus = await resendRequest();
-      // console.log("retry status : " + retryStatus)
-      // if (!retryStatus) {
-      //   res.status(200).json({
-      //     success: false,
-      //     message: "charge was failed !!",
-      //     // upmsg: retryStatus.upResponse.stm,
-      //     // upCode: retryStatus.upResponse.st,
-      //     // userID: rvmData.userID,
-      //     // upResponse : retryStatus.upResponse,
-      //   });
-      // }else{
-      //   res.status(200).json({
-      //     success: true,
-      //     message: "charge was successfully !",
-      //     upmsg: upResponse.stm,
-      //   });
-      // }
+      if (!retryStatus) {
+        res.status(200).json({
+          success: false,
+          message: "charge was failed !!",
+          // upmsg: retryStatus.upResponse.stm,
+          // upCode: retryStatus.upResponse.st,
+          // userID: rvmData.userID,
+          // upResponse : retryStatus.upResponse,
+        });
+      }else{
+        res.status(200).json({
+          success: true,
+          message: "charge was successfully !",
+          upmsg: upResponse.stm,
+        });
+      }
     }
   } else {
     res.status(200).json({

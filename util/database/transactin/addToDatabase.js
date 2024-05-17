@@ -5,7 +5,6 @@ const addToDatabase = async (data) => {
 
   // Validation
   if (!item || !rvmID || !messageID || !totalCount || !totalValue || !userID) {
-    console.log("Please include all fields")
     return { status: "error", message: "Please include all fields" };
   }
 
@@ -13,7 +12,6 @@ const addToDatabase = async (data) => {
   const transactionExists = await Transaction.findOne({ messageID });
 
   if (transactionExists) {
-    console.log("transaction already exists")
     return { status: "error", message: "transaction already exists" };
   }
   
@@ -30,14 +28,12 @@ const addToDatabase = async (data) => {
   });
 
   if (transaction) {
-    console.log("success")
     return {
       staus: "success",
       _id: transaction._id,
       user: transaction.userID,
     };
   } else {
-    console.log("invalid")
     return { status: "error", message: "Invalid transaction data" };
   }
 };
